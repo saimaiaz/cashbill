@@ -7,6 +7,7 @@ import router from './router'
 import vuetify from '@/plugins/vuetify'
 
 require('../node_modules/bootstrap/dist/css/bootstrap.css')
+import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
 Vue.config.productionTip = false
 // Vue.component('paginate', Paginate)
