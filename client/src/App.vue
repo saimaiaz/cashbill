@@ -7,7 +7,8 @@
       <router-link @click="sayHello" to="/">Home</router-link> | 
       <!-- <router-link @click.native="sayHello" to="/List">List</router-link> |  -->
       <router-link @click.native="sayHello" to="/Member">Member</router-link> | 
-      <router-link  to="/Worksheet">Worksheet</router-link>
+      <router-link  to="/Worksheet">Worksheet</router-link> | 
+      <router-link  to="/Workdetails">Workdetails</router-link>
 
       <router-view/>
 

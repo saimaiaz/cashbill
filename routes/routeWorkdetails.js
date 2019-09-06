@@ -1,0 +1,79 @@
+var express = require("express")
+var router = express.Router()
+const tbWorkdetails = require("../model/tbWorkdetails")
+
+// this file like controller
+
+module.exports = router
+
+// show data
+router.get("/workdetails", (req, res) => { 
+    tbWorkdetails.findAll()
+        .then((Workdetails) => {
+            res.json(Workdetails)
+        })
+        .catch(err => {
+            res.send("Error : "+err)
+        })
+})
+
+// add data
+router.post("/workdetails", (req, res) => {
+
+    if(! req.body.is_valid_input){
+        res.status(400)
+        res.json({
+            error: "Bad data"
+        })
+    }else{
+        tbWorkdetails.create(
+            req.body
+        )
+        .then(()=>{
+            res.send("tbWorkdetails Added.")
+        })
+        .catch((err) => {
+            res.send("Error: "+ err)
+        })
+    }
+})
+
+// delete data
+router.delete("/workdetails/:id", (req, res) => {
+    tbWorkdetails.destroy({
+        where:{
+            id: req.params.id
+        }
+    })
+    .then(()=>{
+        res.send("tbWorkdetails deleted.")
+    })
+    .catch((err) => {
+        res.send("Error: "+ err)
+    })
+})
+
+// update data
+router.put("/workdetails/:idx", (req, res) =>{
+
+    if(!req.body.is_valid_input){
+        res.status(400)
+        res.json({
+            error:"Bad data " + req.body
+        })
+    }else{
+        tbWorkdetails.update(            
+            req.body
+            ,
+            {where: {id: req.params.idx}}
+        )
+        .then(()=>{            
+            res.send("tbWorkdetails updated.")
+        })
+        .error((err) => {
+            res.send("Error: "+ err)
+        })
+        
+    }
+})
+

@@ -5,6 +5,7 @@ import Member from '@/components/Member'
 import Homepage from '@/components/Homepage'
 import testvuetify from '@/components/testvuetify'
 import Worksheet from '@/components/Worksheet'
+import Workdetails from '@/components/Workdetails'
 
 
 import Vuetify from 'vuetify'
@@ -44,6 +45,18 @@ export default new Router({
       path: '/Worksheet',
       name: 'Worksheet',
       component: Worksheet
+    }
+    ,
+    {
+      path: '/Workdetails',
+      name: 'Workdetails',
+      component: Workdetails
+    }
+    ,
+    {
+      path: '/Workdetails/:id',
+      name: 'Workdetails',
+      component: Workdetails
     }
     
   ]

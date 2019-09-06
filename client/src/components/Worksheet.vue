@@ -53,22 +53,14 @@
 
 
   <v-tabs
-  background-color="indigo"
-  dark 
+  background-color="blue "
+   dark
   >
 
     <v-tab ripple>
       สดย่อย
     </v-tab>
-    <v-tab ripple>
-      รายงานการเดินทาง
-    </v-tab>
-    <v-tab ripple>
-      Item 1
-    </v-tab>
-    <v-tab ripple>
-      Item 2
-    </v-tab>
+
 
 
     <v-tab-item>
@@ -277,129 +269,27 @@
 
       </v-card>
     </v-tab-item>
+
+
+
+
+
+
+
+
+
+
+
+<!-- ######รายงานการเดินทาง################################ -->
     <v-tab-item>
       <v-card flat>
-        <!-- รายงานการเดินทาง -->
-  <v-form >  
-    <!-- v-model="valid" -->
-    <v-container>
-      
-      <v-row>
-        <v-col
-          cols="12"
-          md="6"
-        >
-          <v-text-field
-            v-model="working_report"            
-            :counter="255"
-            label="รายงานการเดินทาง / รายละเอียดการปฏิบัติงาน"
-            required
-          ></v-text-field> 
-        </v-col>
-
-        <v-col
-          cols="12"
-          md="6"
-        >
-          <v-checkbox 
-            label="รายการนี้คือ รายละเอียดการปฏิบัติงาน?"
-            required
-            v-model="is_full_row"
-          ></v-checkbox>
-        </v-col>
 
 
-      </v-row>
-
-
-
-      <v-row>
-        <v-col
-          cols="12"
-          md="2"
-        >
- 
-          <!-- วันที่ออก -->
-          <v-menu
-        v-model="dialog_date_dt_go"
-        :close-on-content-click="false"
-        :nudge-right="40"
-        transition="scale-transition"
-        offset-y
-        full-width
-        min-width="290px"
-      >
-        <template v-slot:activator="{ on }">
-          <v-text-field
-            v-model="date_dt_go"
-            label="วันที่ออก"
-            prepend-icon="event"
-            readonly
-            v-on="on"
-          ></v-text-field>
-        </template>
-        <v-date-picker v-model="date_dt_go" @input="dialog_date_dt_go = false" locale="th"></v-date-picker>
-      </v-menu>
-          <!-- วันที่ออก -->
-
-        </v-col>
-
-        <v-col
-          cols="12"
-          md="1"
-        >
-          <!-- เวลาออก -->
-           <v-dialog
-        ref="dialog"
-        v-model="modal_time_dt_go"
-        :return-value.sync="time_dt_go"
-        persistent
-        full-width
-        width="290px"
-      >
-        <template v-slot:activator="{ on }">
-          <v-text-field
-            v-model="time_dt_go"
-            label="เวลาออก"
-            prepend-icon=""
-            readonly
-            v-on="on"
-          ></v-text-field>
-        </template>
-        <v-time-picker          
-          v-model="time_dt_go"
-          full-width
-        >
-          <div class="flex-grow-1"></div>
-          <v-btn text color="primary" @click="$refs.dialog.save(time_dt_go)">OK</v-btn>
-        </v-time-picker>
-      </v-dialog>
-          <!-- เวลาออก -->
-        </v-col>
-
-        <v-col
-          cols="12"
-          md="3"
-        >
-          <v-text-field
-            v-model="go"         
-            label="ออกจาก"
-            required
-          ></v-text-field> 
-        </v-col>
-
-
-      </v-row>
-
-      
-
-
-
-    </v-container>
-  </v-form>
         <!-- รายงานการเดินทาง -->      
       </v-card>
     </v-tab-item>  
+    <!-- end tab for รายงานการเดินทาง -->
+
     <v-tab-item>
       <v-card flat>
         Contents for Item 1 go here
@@ -427,7 +317,7 @@ export default {
   data () {
     return {
       dataArray:[],
-      memberDataArray:[],
+      memberDataArray:[], // for dropdown
       isEdit: false,
       training_flag: false,
       other_flag: false,
@@ -454,29 +344,12 @@ export default {
       budget_code:'',
       member_id:'',
 
-      modal_time_dt_go: false,
-      dialog_date_dt_go: false,
-      time_dt_go: null,
-      date_dt_go: null,
-      dt_go:'',
-
-      modal_time_dt_to: false,
-      dialog_date_dt_to: false,
-      time_dt_to: null,
-      date_dt_to: null,
-      dt_to:'',
-
-      ord:'',
-      go:'',
-      to:'',
-      working_report:'',
-      is_full_row:'',
-
       
+
     }
   },mounted(){
     this.getData()
-    this.getMemberData()
+    this.getMemberData() // for dropdown
     //console.log(this)
   },methods : {
     getData(){

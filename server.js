@@ -21,6 +21,7 @@ app.use('/api/printPage5/ExcelTemplate_files/',express.static('views/ExcelTempla
 app.use("/api", require("./routes/tasks"))
 app.use("/api",  require("./routes/routeMember"))
 app.use("/api", require("./routes/routeWorksheets"))
+app.use("/api", require("./routes/routeWorkdetails"))
 
 // establish server
 app.listen(port, () => {
