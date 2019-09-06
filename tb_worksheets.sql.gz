@@ -1,0 +1,52 @@
+-- phpMyAdmin SQL Dump
+-- version 2.10.3
+-- http://www.phpmyadmin.net
+-- 
+-- Host: localhost
+-- Generation Time: Sep 05, 2019 at 09:28 AM
+-- Server version: 5.0.51
+-- PHP Version: 5.2.6
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
+-- 
+-- Database: `cashbill`
+-- 
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `tb_worksheets`
+-- 
+
+CREATE TABLE `tb_worksheets` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(255) NOT NULL,
+  `work_no` varchar(255) NOT NULL,
+  `work_date_send` date NOT NULL,
+  `activity` varchar(255) NOT NULL,
+  `work_job_no` varchar(255) NOT NULL,
+  `work_type` varchar(255) NOT NULL,
+  `other_specify` varchar(255) NOT NULL,
+  `training_no` varchar(255) NOT NULL,
+  `training_name` varchar(255) NOT NULL,
+  `comments` varchar(255) NOT NULL,
+  `commander` varchar(255) NOT NULL,
+  `work_start` datetime NOT NULL,
+  `work_end` datetime NOT NULL,
+  `fuel` decimal(12,2) NOT NULL,
+  `work_day_amount` int(11) NOT NULL,
+  `hostel_day_amount` int(11) NOT NULL,
+  `member_id` int(11) NOT NULL,
+  `account_code` varchar(255) NOT NULL,
+  `cost_code` varchar(255) NOT NULL,
+  `budget_code` varchar(255) NOT NULL,
+  `expressway` decimal(12,2) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+-- 
+-- Dumping data for table `tb_worksheets`
+-- 
+
+INSERT INTO `tb_worksheets` VALUES (1, 'Clear_JEEF_MultiDay-เชียงใหม่-4-10-สิงหา-62-พิเศษ', '9999999', '2019-08-15', '-', 'มท.55032-2/22999', 'ซื้อพัสดุ', '-', '01316183zz', 'การประยุกต์ใช้งานเทคโนโลยี IoT (Internet of Things) เพื่อใช้ในกิจการประปา รุ่นที่ 1/62', 'เดินทางไป กองฝึกอบรมภูมิภาค 1 เชียงใหม่zzzz', 'นายไชยเชษฐ์  ลัทธิธนธรรมzz', '2019-08-15 00:00:00', '2019-08-16 00:00:00', 1000.00, 2, 1, 1, '6212001ZZ', '101986ZZ', '1F.6212001.101986.2ZZ', 0.00);
