@@ -1,6 +1,7 @@
 var express = require("express")
 var router = express.Router()
 const tbWorkdetails = require("../model/tbWorkdetails")
+const sequelize = require("sequelize")
 
 // this file like controller
 
@@ -8,8 +9,24 @@ module.exports = router
 
 // show data
 router.get("/workdetails", (req, res) => { 
-    tbWorkdetails.findAll()
-        .then((Workdetails) => {
+    tbWorkdetails.findAll({
+            attributes: [
+                'id',
+                'worksheets_id' ,
+                'ord' ,
+                'go' ,
+                'dt_go' ,
+                [sequelize.fn('date_format', sequelize.col('dt_go'), '%d-%m-%Y'), 'dt_go_date'] ,
+                [sequelize.fn('date_format', sequelize.col('dt_go'), '%H:%i'), 'dt_go_time'] ,
+                'to' ,
+                'dt_to' ,
+                [sequelize.fn('date_format', sequelize.col('dt_to'), '%d-%m-%Y'), 'dt_to_date'] ,
+                [sequelize.fn('date_format', sequelize.col('dt_to'), '%H:%i'), 'dt_to_time'] ,
+                'working_report' ,
+                'is_full_row' 
+            ]
+        })
+        .then((Workdetails) => {            
             res.json(Workdetails)
         })
         .catch(err => {

@@ -46,12 +46,12 @@ export default new Router({
       name: 'Worksheet',
       component: Worksheet
     }
-    ,
-    {
-      path: '/Workdetails',
-      name: 'Workdetails',
-      component: Workdetails
-    }
+    // ,
+    // {
+    //   path: '/Workdetails',
+    //   name: 'Workdetails',
+    //   component: Workdetails
+    // }
     ,
     {
       path: '/Workdetails/:id',

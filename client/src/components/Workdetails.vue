@@ -24,7 +24,7 @@
   >
 
   <template v-slot:item.dt_go="{ item }">
-    <b>{{ item.dt_go }} test customize</b>
+    <b>{{ item.dt_go }} 1</b>
   </template>
 
 </v-data-table>
@@ -284,11 +284,11 @@ export default {
         //   value: 'name',
         // },
         { text: 'ออกจาก', value: 'go' },
-        { text: 'วัน', value: 'dt_go' },
-        { text: 'เวลา', value: 'dt_go' },
+        { text: 'วัน', value: 'dt_go_date' },
+        { text: 'เวลา', value: 'dt_go_time' },
         { text: 'ถึง', value: 'to' },
-        { text: 'วัน', value: 'dt_to' },
-        { text: 'เวลา', value: 'dt_to' },
+        { text: 'วัน', value: 'dt_to_date' },
+        { text: 'เวลา', value: 'dt_to_time' },
         { text: 'รายงานการเดินทาง และปฏิบัติงาน', value: 'working_report' },
       ],
 
