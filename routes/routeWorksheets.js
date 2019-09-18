@@ -54,6 +54,7 @@ router.get("/printPage1/:id",async (req, res)=>{
     res.render('ExcelTemplate.ejs', db_data)
 })
 
+// http://localhost:3000/api/workdetails
 // show data
 router.get("/worksheet", (req, res) => { 
     tbWorksheets.findAll()

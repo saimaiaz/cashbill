@@ -15,9 +15,9 @@ module.exports = db.sequelize.define(
         ord: Sequelize.INTEGER,
         go: Sequelize.STRING,
         dt_go: Sequelize.DATE,
-        to: Sequelize.DATE,
+        to: Sequelize.STRING,
         dt_to: Sequelize.DATE,
-        working_report: Sequelize.DATE,
+        working_report: Sequelize.TEXT,
         is_full_row: Sequelize.INTEGER,
         
     },

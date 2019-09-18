@@ -18,13 +18,30 @@
   :headers="headers_details" 
   :items="items_details" 
   item-key="id" 
+  sort-by="ord"
   class="elevation-1" 
   :items-per-page="5" 
   show-select
   >
 
-  <template v-slot:item.dt_go="{ item }">
-    <b>{{ item.dt_go }} 1</b>
+  <template v-slot:item="{ item }" >
+
+    <tr v-if="item.is_full_row==1">
+      <td ><input type="checkbox"></td>
+      <td colspan="7">{{ item.working_report }}</td>
+      </tr> 
+    
+    <tr v-else>
+      <td ><input type="checkbox"></td>
+      <td >{{ item.go }}</td>
+      <td >{{ item.dt_go_date }}</td>
+      <td >{{ item.dt_go_time }}</td>
+      <td >{{ item.to }}</td>
+      <td >{{ item.dt_to_date }}</td>
+      <td >{{ item.dt_to_time }}</td>
+      <td >{{ item.working_report }}</td>
+    </tr> 
+    
   </template>
 
 </v-data-table>
@@ -58,6 +75,7 @@
             label="รายการนี้คือ รายละเอียดการปฏิบัติงาน?"
             required
             v-model="is_full_row"
+            value="1"            
           ></v-checkbox>
         </v-col>
 
@@ -65,23 +83,22 @@
       </v-row>
 
 
-
-      <v-row>
+      <!-- ################## input date rows -->
+      <v-row >
         <v-col
           cols="12"
-          md="2"
-        >
+          md="2" >
  
-          <!-- วันที่ออก -->
-          <v-menu
-        v-model="dialog_date_dt_go"
-        :close-on-content-click="false"
-        :nudge-right="40"
-        transition="scale-transition"
-        offset-y
-        full-width
-        min-width="290px"
-      >
+        <!-- วันที่ออก -->
+      <v-menu
+          v-model="dialog_date_dt_go"
+          :close-on-content-click="false"
+          :nudge-right="40"
+          transition="scale-transition"
+          offset-y
+          full-width
+          min-width="290px"          
+        >
         <template v-slot:activator="{ on }">
           <v-text-field
             v-model="date_dt_go"
@@ -89,6 +106,7 @@
             prepend-icon="event"
             readonly
             v-on="on"
+            :disabled="is_full_row==1"
           ></v-text-field>
         </template>
         <v-date-picker v-model="date_dt_go" @input="dialog_date_dt_go = false" locale="th"></v-date-picker>
@@ -117,6 +135,7 @@
             prepend-icon=""
             readonly
             v-on="on"
+            :disabled="is_full_row==1"
           ></v-text-field>
         </template>
         <v-time-picker          
@@ -138,6 +157,7 @@
             v-model="go"         
             label="ออกจาก"
             required
+            :disabled="is_full_row==1"
           ></v-text-field> 
         </v-col>
 
@@ -164,6 +184,7 @@
             prepend-icon="event"
             readonly
             v-on="on"
+            :disabled="is_full_row==1"
           ></v-text-field>
         </template>
         <v-date-picker v-model="date_dt_to" @input="dialog_date_dt_to = false" locale="th"></v-date-picker>
@@ -192,6 +213,7 @@
             prepend-icon=""
             readonly
             v-on="on"
+            :disabled="is_full_row==1"
           ></v-text-field>
         </template>
         <v-time-picker          
@@ -213,6 +235,7 @@
             v-model="to"         
             label="ไปถึง"
             required
+            :disabled="is_full_row==1"
           ></v-text-field> 
         </v-col>
 <!-- ### end group ถึง ### -->
@@ -222,7 +245,7 @@
       <v-row>
         <v-col>
           <div class="text-center ">
-            <v-btn class="primary">เพิ่มข้อมูล</v-btn>
+            <v-btn v-on:click="addNew()" class="primary">เพิ่มข้อมูล</v-btn>
           </div>
         </v-col>
       </v-row>
@@ -235,8 +258,8 @@
 
 
   </div>
-
-  <hr style="border:1px solid ;">
+<!-- 
+  <hr style="border:1px solid ;"> -->
 
 
 </div>
@@ -250,39 +273,29 @@ export default {
 
   data () {
     return {
-      //dataArray:[],
       isEdit: false,
       is_valid_input: '',
-      id: '',
-
-      // data for details
+      id: '',      
+      worksheets_id: '',      
       modal_time_dt_go: false,
       dialog_date_dt_go: false,
       time_dt_go: null,
       date_dt_go: null,
       dt_go:'',
-
       modal_time_dt_to: false,
       dialog_date_dt_to: false,
       time_dt_to: null,
       date_dt_to: null,
       dt_to:'',
-
       ord:'',
       go:'',
       to:'',
       working_report:'',
       is_full_row:'',
-      // data for details
 
+      // data for details
       items_details: [],
       headers_details: [
-        // {
-        //   text: 'Dessert (100g serving)',
-        //   align: 'left',
-        //   sortable: false,
-        //   value: 'name',
-        // },
         { text: 'ออกจาก', value: 'go' },
         { text: 'วัน', value: 'dt_go_date' },
         { text: 'เวลา', value: 'dt_go_time' },
@@ -296,6 +309,7 @@ export default {
   },mounted(){
     this.getData()
   },methods : {
+    
     getData(){
       axios.get("/api/workdetails").then(
         (result) => {
@@ -308,40 +322,53 @@ export default {
       )
     },
     clearData(){
-      this.firstname = ''
-      this.lastname = ''
-      this.position=''
-      this.address=''
-      this.allowance=''
-      this.expenses=''
-      this.bank_account=''
-      this.emp_no=''
-      this.belong_to=''
-      this.taxi=''
-      this.etc=''
+      this.go = '' 
+      this.date_dt_go = '' 
+      this.time_dt_go = '' 
+      this.to = '' 
+      this.date_dt_to = '' 
+      this.time_dt_to = '' 
+      this.working_report = '' 
+      this.is_full_row = '' 
     },
     addNew(){
-      //console.log('addNewTask has fire')
-      if(this.firstname == '' || this.lastname == ''){
-        this.is_valid_input = ''
+      // console.log('addNewTask has fire')
+      // console.log('dt_go : '+(this.date_dt_go+' '+this.time_dt_go))
+      // return
+
+      if( this.is_full_row  != '1' ){
+        if(
+          this.go == '' ||
+          this.date_dt_go == '' ||
+          this.time_dt_go == '' ||
+          this.to == '' ||
+          this.date_dt_to == '' ||
+          this.time_dt_to == '' ||
+          this.working_report == '' 
+        ){
+          this.is_valid_input = ''
+          alert('โปรดกรอกข้อมูลให้ครบ')
+        }else{
+          this.is_valid_input = 'true'
+        }        
       }else{
-        this.is_valid_input = 'true'
+         this.is_valid_input = 'true'
       }
+
+      // console.log(this.is_valid_input)
+      // console.log('The id is: ' + this.$route.params.id); return 
 
       axios.post("/api/workdetails", 
         {
-          is_valid_input: this.is_valid_input,
-          firstname: this.firstname,
-          lastname: this.lastname,
-          position: this.position,
-          address: this.address,
-          allowance: this.allowance,
-          expenses: this.expenses,
-          bank_account: this.bank_account,
-          emp_no: this.emp_no,
-          belong_to: this.belong_to,
-          taxi: this.taxi,
-          etc: this.etc
+          is_valid_input: this.is_valid_input,         
+          go:this.go, 
+          dt_go:this.date_dt_go+' '+this.time_dt_go,          
+          to:this.to,
+          dt_to:this.date_dt_to+' '+this.time_dt_to, 
+          working_report:this.working_report,
+          is_full_row:this.is_full_row,
+          worksheets_id: this.$route.params.id,
+          
         }
         
       )
@@ -420,6 +447,10 @@ export default {
 
 
   } // end ,methods :
+  ,
+  watch : {
+
+  }
 
 }
 </script>

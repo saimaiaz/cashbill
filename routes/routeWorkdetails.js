@@ -7,6 +7,7 @@ const sequelize = require("sequelize")
 
 module.exports = router
 
+// http://localhost:3000/api/workdetails
 // show data
 router.get("/workdetails", (req, res) => { 
     tbWorkdetails.findAll({
