@@ -4,7 +4,20 @@
 <br><br>
 
   <div class="row">
-    <h4>Manage Worksheet details</h4> <br><br>
+    <!-- <h4>Manage Worksheet details</h4>  -->
+    <div class="text-left">
+      <v-chip
+        class="ma-2 title"
+        color="deep-purple accent-4"        
+        text-color="white"
+      >
+      <!-- outlined -->
+        <v-icon left>mdi-label</v-icon>
+        Manage Worksheet details
+      </v-chip>
+    </div>
+    
+    <br><br>
   </div>
   <div class="row">
 <br>
@@ -19,20 +32,41 @@
   :items="items_details" 
   item-key="id" 
   sort-by="ord"
-  class="elevation-1" 
-  :items-per-page="15" 
+  class="elevation-1 " 
+  :items-per-page="5" 
   show-select
   >
 
   <template v-slot:item="{ item }" >
 
     <tr v-if="item.is_full_row==1">
-      <td ><input type="checkbox"></td>
+      <td>
+        <!-- v-model="checkbox1" -->
+        <v-checkbox color="red"></v-checkbox> 
+      </td>
+      <td >
+        <v-btn text icon color="red">
+          <v-icon>mdi-arrow-up</v-icon>
+        </v-btn>
+        <v-btn text icon color="red">
+          <v-icon>mdi-arrow-down</v-icon>
+        </v-btn>
+
+      </td>
       <td colspan="7">{{ item.working_report }}</td>
       </tr> 
     
     <tr v-else>
-      <td ><input type="checkbox"></td>
+      <td ><v-checkbox color="red"></v-checkbox> </td>
+      <td >
+        <v-btn text icon color="red">
+          <v-icon>mdi-arrow-up</v-icon>
+        </v-btn>
+        <v-btn text icon color="red">
+          <v-icon>mdi-arrow-down</v-icon>
+        </v-btn>
+
+      </td>
       <td >{{ item.go }}</td>
       <td >{{ item.dt_go_date }}</td>
       <td >{{ item.dt_go_time }}</td>
@@ -40,6 +74,27 @@
       <td >{{ item.dt_to_date }}</td>
       <td >{{ item.dt_to_time }}</td>
       <td >{{ item.working_report }}</td>
+      <td >
+        <!-- <template v-slot:item.action="{ item }">
+          <v-icon
+            small
+            class="mr-2"
+            @click="editItem(item)"
+          >
+            edit
+          </v-icon>
+          <v-icon
+            small
+            @click="deleteItem(item)"
+          >
+            delete
+          </v-icon>
+        </template> -->
+        <template >
+          <v-icon small class="mr-2">edit</v-icon>
+          <v-icon small>delete</v-icon>
+        </template>
+      </td>
     </tr> 
     
   </template>
@@ -75,7 +130,8 @@
             label="รายการนี้คือ รายละเอียดการปฏิบัติงาน?"
             required
             v-model="is_full_row"
-            value="1"            
+            value="1"     
+            color="indigo"       
           ></v-checkbox>
         </v-col>
 
@@ -296,6 +352,7 @@ export default {
       // data for details
       items_details: [],
       headers_details: [
+        { text: ' ', value: '' },
         { text: 'ออกจาก', value: 'go' },
         { text: 'วัน', value: 'dt_go_date' },
         { text: 'เวลา', value: 'dt_go_time' },
@@ -303,6 +360,7 @@ export default {
         { text: 'วัน', value: 'dt_to_date' },
         { text: 'เวลา', value: 'dt_to_time' },
         { text: 'รายงานการเดินทาง และปฏิบัติงาน', value: 'working_report' },
+        
       ],
 
     }
@@ -384,16 +442,7 @@ export default {
     editData(id,firstname, lastname, position, address, allowance, expenses, bank_account, emp_no, belong_to, taxi,  etc){
       this.id = id
       this.firstname = firstname
-      this.lastname = lastname
-      this.position = position
-      this.address = address
-      this.allowance = allowance
-      this.expenses = expenses
-      this.bank_account = bank_account
-      this.emp_no = emp_no
-      this.belong_to = belong_to
-      this.taxi = taxi
-      this.etc = etc
+      
       this.isEdit = true
     },
     updateData(){
@@ -407,16 +456,7 @@ export default {
       axios.put(`/api/workdetails/${this.id}`,{
           is_valid_input: this.is_valid_input,
           firstname: this.firstname,
-          lastname: this.lastname,
-          position: this.position,
-          address: this.address,
-          allowance: this.allowance,
-          expenses: this.expenses,
-          bank_account: this.bank_account,
-          emp_no: this.emp_no,
-          belong_to: this.belong_to,
-          taxi: this.taxi,
-          etc: this.etc
+          
         })
       .then((res)=>{
         this.isEdit = false 

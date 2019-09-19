@@ -1,0 +1,132 @@
+-- phpMyAdmin SQL Dump
+-- version 2.10.3
+-- http://www.phpmyadmin.net
+-- 
+-- Host: localhost
+-- Generation Time: Sep 19, 2019 at 10:51 AM
+-- Server version: 5.0.51
+-- PHP Version: 5.2.6
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
+-- 
+-- Database: `cashbill`
+-- 
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `tbl_tasks`
+-- 
+
+CREATE TABLE `tbl_tasks` (
+  `id` int(11) NOT NULL auto_increment,
+  `task_name` varchar(255) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+
+-- 
+-- Dumping data for table `tbl_tasks`
+-- 
+
+INSERT INTO `tbl_tasks` VALUES (3, 'jeef');
+INSERT INTO `tbl_tasks` VALUES (5, 'test123');
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `tb_members`
+-- 
+
+CREATE TABLE `tb_members` (
+  `id` int(11) NOT NULL auto_increment,
+  `firstname` varchar(255) NOT NULL,
+  `lastname` varchar(255) NOT NULL,
+  `position` varchar(100) NOT NULL,
+  `address` varchar(255) NOT NULL,
+  `allowance` float NOT NULL,
+  `expenses` float NOT NULL,
+  `bank_account` varchar(20) NOT NULL,
+  `emp_no` varchar(5) NOT NULL,
+  `belong_to` varchar(255) NOT NULL,
+  `taxi` int(11) NOT NULL,
+  `etc` float NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
+
+-- 
+-- Dumping data for table `tb_members`
+-- 
+
+INSERT INTO `tb_members` VALUES (1, 'ณรงค์ศักดิ์zz', 'กาบแก้วzz', 'นักวิชาการคอมพิวเตอร์ 6zz', '5/49 หมู่2 ซอยสายไหม50 เขตสายไหม กรุงเทพฯ 10220zz', 340, 800, '982-6-56728-0zz', '15194', 'งานพัฒนาเทคโนโลยีน้ำสูญเสีย  กทน. สำนักเทคโนโลยีภูมิสารสนเทศzz', 400, 0);
+INSERT INTO `tb_members` VALUES (15, 'พชร', 'นพพรพงษา', 'Black Hacker', 'ท่าน้ำนนท์', 300, 800, '999888777', '15999', 'งานพี่ดิฐ', 999, 999);
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `tb_worksheets`
+-- 
+
+CREATE TABLE `tb_worksheets` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(255) NOT NULL,
+  `work_no` varchar(255) NOT NULL,
+  `work_date_send` date NOT NULL,
+  `activity` varchar(255) NOT NULL,
+  `work_job_no` varchar(255) NOT NULL,
+  `work_type` varchar(255) NOT NULL,
+  `other_specify` varchar(255) NOT NULL,
+  `training_no` varchar(255) NOT NULL,
+  `training_name` varchar(255) NOT NULL,
+  `comments` varchar(255) NOT NULL,
+  `commander` varchar(255) NOT NULL,
+  `work_start` datetime NOT NULL,
+  `work_end` datetime NOT NULL,
+  `fuel` decimal(12,2) NOT NULL,
+  `work_day_amount` int(11) NOT NULL,
+  `hostel_day_amount` int(11) NOT NULL,
+  `member_id` int(11) NOT NULL,
+  `account_code` varchar(255) NOT NULL,
+  `cost_code` varchar(255) NOT NULL,
+  `budget_code` varchar(255) NOT NULL,
+  `expressway` decimal(12,2) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+-- 
+-- Dumping data for table `tb_worksheets`
+-- 
+
+INSERT INTO `tb_worksheets` VALUES (1, 'Clear_JEEF_MultiDay-เชียงใหม่-4-10-สิงหา-62-พิเศษ', '9999999', '2019-08-15', '-', 'มท.55032-2/22999', 'ซื้อพัสดุ', '-', '01316183zz', 'การประยุกต์ใช้งานเทคโนโลยี IoT (Internet of Things) เพื่อใช้ในกิจการประปา รุ่นที่ 1/62', 'เดินทางไป กองฝึกอบรมภูมิภาค 1 เชียงใหม่zzzz', 'นายไชยเชษฐ์  ลัทธิธนธรรมzzผ', '2019-08-15 00:00:00', '2019-08-16 00:00:00', 1000.00, 10, 9, 15, '6212001ZZ', '101986ZZ', '1F.6212001.101986.2ZZ', 0.00);
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `tb_work_details`
+-- 
+
+CREATE TABLE `tb_work_details` (
+  `id` int(11) NOT NULL auto_increment,
+  `worksheets_id` int(11) NOT NULL,
+  `ord` int(11) NOT NULL,
+  `go` varchar(255) NOT NULL,
+  `dt_go` datetime NOT NULL,
+  `to` varchar(255) NOT NULL,
+  `dt_to` datetime NOT NULL,
+  `working_report` text NOT NULL,
+  `is_full_row` tinyint(1) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
+
+-- 
+-- Dumping data for table `tb_work_details`
+-- 
+
+INSERT INTO `tb_work_details` VALUES (1, 1, 0, 'ไปปปป', '2019-09-05 08:30:45', 'ถึงงงง', '2019-09-12 14:30:49', 'ทำงาน ...', 0);
+INSERT INTO `tb_work_details` VALUES (2, 1, 0, 'ไปปปป222', '2019-09-05 08:30:45', 'ถึงงงง222', '2019-09-12 14:30:49', 'ทำงาน ...22222', 0);
+INSERT INTO `tb_work_details` VALUES (16, 1, 0, 'dgf', '2019-09-17 17:00:00', 'trtyrty', '2019-09-17 17:00:00', 'dfgdfg', 0);
+INSERT INTO `tb_work_details` VALUES (9, 2, 0, '', '0000-00-00 00:00:00', '', '0000-00-00 00:00:00', 'วันที่ 9 กันยายน  2562 เช้าประชุมวางแผนการลงพื้นที่เพื่อปรับค่าอุปกรณ์ RTU เข้าสู่ระบบบริหารจัดการน้ำสูญเสีย กปภ.  ณ ห้องประชุม กปภ.สาขาพระนครศรีอยุธยา (พ)', 1);
+INSERT INTO `tb_work_details` VALUES (10, 2, 0, '', '0000-00-00 00:00:00', '', '0000-00-00 00:00:00', 'x x x x x x xxx ', 1);
+INSERT INTO `tb_work_details` VALUES (11, 2, 0, 'บ้าน', '2019-09-17 23:30:00', 'ประปา', '2019-09-18 01:30:00', 'พร้อมสำภาระ', 0);
+INSERT INTO `tb_work_details` VALUES (15, 1, 0, 'asdas', '2019-09-17 17:00:00', 'asdasd', '2019-09-17 17:00:00', 'aaaa', 0);
+INSERT INTO `tb_work_details` VALUES (14, 1, 0, '11111', '2019-09-17 17:00:00', '22222', '2019-09-18 16:59:00', '3333', 0);
