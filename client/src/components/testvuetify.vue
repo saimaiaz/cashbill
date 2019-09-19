@@ -60,7 +60,7 @@
         class="mr-2"
         @click="editItem(item)"
       >
-        edit
+        editะ
       </v-icon>
       <v-icon
         small
