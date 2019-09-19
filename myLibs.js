@@ -122,6 +122,12 @@ module.exports = {
 
     return input.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
   }
-
+  ,
+  correctDateTime : (d) => {
+    // var date = new Date(); 
+	var new_date = new Date((d * 1) + (7*60*60*1000)) // GMT+7 BKK
+	
+	return new_date
+  }
 
 };

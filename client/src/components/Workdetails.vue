@@ -20,7 +20,7 @@
   item-key="id" 
   sort-by="ord"
   class="elevation-1" 
-  :items-per-page="5" 
+  :items-per-page="15" 
   show-select
   >
 
@@ -311,7 +311,7 @@ export default {
   },methods : {
     
     getData(){
-      axios.get("/api/workdetails").then(
+      axios.get("/api/workdetails/"+this.$route.params.id).then(
         (result) => {
           //console.log(result.data)
           this.items_details = result.data
@@ -333,7 +333,7 @@ export default {
     },
     addNew(){
       // console.log('addNewTask has fire')
-      // console.log('dt_go : '+(this.date_dt_go+' '+this.time_dt_go))
+       console.log('dt_go : '+(this.date_dt_go+' '+this.time_dt_go))
       // return
 
       if( this.is_full_row  != '1' ){

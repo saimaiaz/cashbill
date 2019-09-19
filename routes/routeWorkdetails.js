@@ -9,7 +9,7 @@ module.exports = router
 
 // http://localhost:3000/api/workdetails
 // show data
-router.get("/workdetails", (req, res) => { 
+router.get("/workdetails/:id", (req, res) => { 
     tbWorkdetails.findAll({
             attributes: [
                 'id',
@@ -25,9 +25,13 @@ router.get("/workdetails", (req, res) => {
                 [sequelize.fn('date_format', sequelize.col('dt_to'), '%H:%i'), 'dt_to_time'] ,
                 'working_report' ,
                 'is_full_row' 
-            ]
-        })
-        .then((Workdetails) => {            
+            ],
+            where:{
+                worksheets_id: req.params.id
+            }
+        }
+        
+        ).then((Workdetails) => {            
             res.json(Workdetails)
         })
         .catch(err => {
