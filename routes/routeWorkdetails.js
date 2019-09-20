@@ -7,7 +7,7 @@ const sequelize = require("sequelize")
 
 module.exports = router
 
-// http://localhost:3000/api/workdetails
+// http://localhost:3000/api/workdetails/1
 // show data
 router.get("/workdetails/:id", (req, res) => { 
     tbWorkdetails.findAll({
@@ -17,12 +17,12 @@ router.get("/workdetails/:id", (req, res) => {
                 'ord' ,
                 'go' ,
                 'dt_go' ,
-                [sequelize.fn('date_format', sequelize.col('dt_go'), '%d-%m-%Y'), 'dt_go_date'] ,
-                [sequelize.fn('date_format', sequelize.col('dt_go'), '%H:%i'), 'dt_go_time'] ,
+                [sequelize.fn('date_format', sequelize.col('dt_go'), '%d-%m-%Y'), 'date_dt_go'] ,
+                [sequelize.fn('date_format', sequelize.col('dt_go'), '%H:%i'), 'time_dt_go'] ,
                 'to' ,
                 'dt_to' ,
-                [sequelize.fn('date_format', sequelize.col('dt_to'), '%d-%m-%Y'), 'dt_to_date'] ,
-                [sequelize.fn('date_format', sequelize.col('dt_to'), '%H:%i'), 'dt_to_time'] ,
+                [sequelize.fn('date_format', sequelize.col('dt_to'), '%d-%m-%Y'), 'date_dt_to'] ,
+                [sequelize.fn('date_format', sequelize.col('dt_to'), '%H:%i'), 'time_dt_to'] ,
                 'working_report' ,
                 'is_full_row' 
             ],

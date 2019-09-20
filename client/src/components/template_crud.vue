@@ -8,7 +8,11 @@
     <template v-slot:top>
       <v-toolbar flat color="white">
         <v-toolbar-title>My CRUD</v-toolbar-title>
-        <v-divider class="mx-4" inset vertical></v-divider>
+        <v-divider
+          class="mx-4"
+          inset
+          vertical
+        ></v-divider>
         <div class="flex-grow-1"></div>
         <v-dialog v-model="dialog" max-width="900px">
           <template v-slot:activator="{ on }">
@@ -45,17 +49,23 @@
               <div class="flex-grow-1"></div>
               <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
               <v-btn color="blue darken-1" text @click="save">Save</v-btn>
-            </v-card-actions> v-card-actions
-
-          </v-card> 
-        </v-dialog> v-dialog
-      </v-toolbar> v-toolbar
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-toolbar>
     </template>
-    <template v-slot:item.action="{ item }">      
-      <v-icon small class="mr-2" @click="editItem(item)">
+    <template v-slot:item.action="{ item }">
+      <v-icon
+        small
+        class="mr-2"
+        @click="editItem(item)"
+      >
         edit
       </v-icon>
-      <v-icon small @click="deleteItem(item)" >
+      <v-icon
+        small
+        @click="deleteItem(item)"
+      >
         delete
       </v-icon>
     </template>
@@ -68,7 +78,7 @@
 <script>
   export default {
     data: () => ({
-      
+      dialog: false,
       headers: [
         {
           text: 'Dessert (100g serving)',
@@ -83,7 +93,6 @@
         { text: 'Actions', value: 'action', sortable: false },
       ],
       desserts: [],
-      dialog: false,
       editedIndex: -1,
       editedItem: {
         name: '',
@@ -213,11 +222,9 @@
       },
 
       save () {
-        if (this.editedIndex > -1) { 
-          // edit mode
+        if (this.editedIndex > -1) { // insert mode
           Object.assign(this.desserts[this.editedIndex], this.editedItem)
-        } else { 
-          // insert mode
+        } else { // edit mode
           this.desserts.push(this.editedItem)
         }
         this.close()

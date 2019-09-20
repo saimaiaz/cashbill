@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Generation Time: Sep 19, 2019 at 10:51 AM
+-- Generation Time: Sep 20, 2019 at 05:15 PM
 -- Server version: 5.0.51
 -- PHP Version: 5.2.6
 
@@ -116,17 +116,16 @@ CREATE TABLE `tb_work_details` (
   `working_report` text NOT NULL,
   `is_full_row` tinyint(1) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=27 ;
 
 -- 
 -- Dumping data for table `tb_work_details`
 -- 
 
-INSERT INTO `tb_work_details` VALUES (1, 1, 0, 'ไปปปป', '2019-09-05 08:30:45', 'ถึงงงง', '2019-09-12 14:30:49', 'ทำงาน ...', 0);
-INSERT INTO `tb_work_details` VALUES (2, 1, 0, 'ไปปปป222', '2019-09-05 08:30:45', 'ถึงงงง222', '2019-09-12 14:30:49', 'ทำงาน ...22222', 0);
-INSERT INTO `tb_work_details` VALUES (16, 1, 0, 'dgf', '2019-09-17 17:00:00', 'trtyrty', '2019-09-17 17:00:00', 'dfgdfg', 0);
 INSERT INTO `tb_work_details` VALUES (9, 2, 0, '', '0000-00-00 00:00:00', '', '0000-00-00 00:00:00', 'วันที่ 9 กันยายน  2562 เช้าประชุมวางแผนการลงพื้นที่เพื่อปรับค่าอุปกรณ์ RTU เข้าสู่ระบบบริหารจัดการน้ำสูญเสีย กปภ.  ณ ห้องประชุม กปภ.สาขาพระนครศรีอยุธยา (พ)', 1);
 INSERT INTO `tb_work_details` VALUES (10, 2, 0, '', '0000-00-00 00:00:00', '', '0000-00-00 00:00:00', 'x x x x x x xxx ', 1);
 INSERT INTO `tb_work_details` VALUES (11, 2, 0, 'บ้าน', '2019-09-17 23:30:00', 'ประปา', '2019-09-18 01:30:00', 'พร้อมสำภาระ', 0);
-INSERT INTO `tb_work_details` VALUES (15, 1, 0, 'asdas', '2019-09-17 17:00:00', 'asdasd', '2019-09-17 17:00:00', 'aaaa', 0);
-INSERT INTO `tb_work_details` VALUES (14, 1, 0, '11111', '2019-09-17 17:00:00', '22222', '2019-09-18 16:59:00', '3333', 0);
+INSERT INTO `tb_work_details` VALUES (23, 1, 0, 'home', '2019-09-02 06:30:00', 'office', '2019-09-02 08:30:00', 'test 2', 0);
+INSERT INTO `tb_work_details` VALUES (24, 1, 0, '', '0000-00-00 00:00:00', '', '0000-00-00 00:00:00', 'trainning at pwa hq', 1);
+INSERT INTO `tb_work_details` VALUES (25, 1, 0, 'office', '2019-09-01 16:30:00', 'home', '2019-09-01 17:30:00', 'กลับๆๆๆ', 0);
+INSERT INTO `tb_work_details` VALUES (26, 1, 0, '', '0000-00-00 00:00:00', '', '0000-00-00 00:00:00', 'for del', 1);

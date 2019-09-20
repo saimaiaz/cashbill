@@ -125,7 +125,14 @@ module.exports = {
   ,
   correctDateTime : (d) => {
     // var date = new Date(); 
-	var new_date = new Date((d * 1) + (7*60*60*1000)) // GMT+7 BKK
+    var new_date = new Date((d * 1) + (7*60*60*1000)) // GMT+7 BKK
+    
+    // const nDate = new Date().toLocaleString('th-TH', {
+    //     timeZone: 'Asia/bangkok'
+    //   });
+      
+    //   console.log(nDate);
+    //   อันนี้ก็ยาวไป
 	
 	return new_date
   }

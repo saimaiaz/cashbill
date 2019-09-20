@@ -27,124 +27,58 @@
 
 <!-- table for show items details in tb_work_details -->
 <v-data-table 
-  dense 
+   
   :headers="headers_details" 
   :items="items_details" 
   item-key="id" 
   sort-by="ord"
   class="elevation-1 " 
   :items-per-page="5" 
-  show-select
+  
   >
 
-  <template v-slot:item="{ item }" >
-
-    <tr v-if="item.is_full_row==1">
-      <td>
-        <!-- v-model="checkbox1" -->
-        <v-checkbox color="red"></v-checkbox> 
-      </td>
-      <td >
-        <v-btn text icon color="red">
-          <v-icon>mdi-arrow-up</v-icon>
-        </v-btn>
-        <v-btn text icon color="red">
-          <v-icon>mdi-arrow-down</v-icon>
-        </v-btn>
-
-      </td>
-      <td colspan="7">{{ item.working_report }}</td>
-      </tr> 
-    
-    <tr v-else>
-      <td ><v-checkbox color="red"></v-checkbox> </td>
-      <td >
-        <v-btn text icon color="red">
-          <v-icon>mdi-arrow-up</v-icon>
-        </v-btn>
-        <v-btn text icon color="red">
-          <v-icon>mdi-arrow-down</v-icon>
-        </v-btn>
-
-      </td>
-      <td >{{ item.go }}</td>
-      <td >{{ item.dt_go_date }}</td>
-      <td >{{ item.dt_go_time }}</td>
-      <td >{{ item.to }}</td>
-      <td >{{ item.dt_to_date }}</td>
-      <td >{{ item.dt_to_time }}</td>
-      <td >{{ item.working_report }}</td>
-      <td >
-        <!-- <template v-slot:item.action="{ item }">
-          <v-icon
-            small
-            class="mr-2"
-            @click="editItem(item)"
-          >
-            edit
-          </v-icon>
-          <v-icon
-            small
-            @click="deleteItem(item)"
-          >
-            delete
-          </v-icon>
-        </template> -->
-        <template >
-          <v-icon small class="mr-2">edit</v-icon>
-          <v-icon small>delete</v-icon>
-        </template>
-      </td>
-    </tr> 
-    
+  <!-- dialog Insert / Edit -->
+  <template v-slot:top>
+  <v-dialog v-model="dialog" max-width="900px"> 
+  <template v-slot:activator="{ on }" >
+    <div class="text-right">
+      <v-btn color="primary" dark class="mb-2" v-on="on">New Item</v-btn>
+    </div>
   </template>
 
-</v-data-table>
+    <v-card>
+      <v-card-title>
+        <span class="headline">{{ formTitle }}</span>
+      </v-card-title>
 
+      <v-card-text>
+        <v-container>
+        <v-row>
+          <v-col cols="12" md="6" >
+            <!-- <v-text-field v-model="editedItem.id" ></v-text-field> -->
+            <v-text-field
+              v-model="editedItem.working_report"            
+              :counter="255"
+              label="รายงานการเดินทาง / รายละเอียดการปฏิบัติงาน"
+              required
+            ></v-text-field> 
+          </v-col>
 
-
-
-
-  <v-form >  
-    <!-- v-model="valid" -->
-    <v-container>
-      
-      <v-row>
-        <v-col
-          cols="12"
-          md="6"
-        >
-          <v-text-field
-            v-model="working_report"            
-            :counter="255"
-            label="รายงานการเดินทาง / รายละเอียดการปฏิบัติงาน"
-            required
-          ></v-text-field> 
-        </v-col>
-
-        <v-col
-          cols="12"
-          md="6"
-        >
-          <v-checkbox 
-            label="รายการนี้คือ รายละเอียดการปฏิบัติงาน?"
-            required
-            v-model="is_full_row"
-            value="1"     
-            color="indigo"       
-          ></v-checkbox>
-        </v-col>
-
-
-      </v-row>
-
-
-      <!-- ################## input date rows -->
+          <v-col cols="12" md="6" >
+            <v-checkbox 
+              label="รายการนี้คือ รายละเอียดการปฏิบัติงาน?"
+              required
+              v-model="editedItem.is_full_row"
+              value="1"     
+              color="indigo"       
+            ></v-checkbox>
+          </v-col>
+        </v-row>
+        <!-- ################## input date rows -->
       <v-row >
         <v-col
           cols="12"
           md="2" >
- 
         <!-- วันที่ออก -->
       <v-menu
           v-model="dialog_date_dt_go"
@@ -153,53 +87,53 @@
           transition="scale-transition"
           offset-y
           full-width
-          min-width="290px"          
+          min-width="290px"  
+                
         >
         <template v-slot:activator="{ on }">
           <v-text-field
-            v-model="date_dt_go"
+            v-model="editedItem.date_dt_go"
             label="วันที่ออก"
             prepend-icon="event"
             readonly
             v-on="on"
-            :disabled="is_full_row==1"
+            :disabled="editedItem.is_full_row==1"
           ></v-text-field>
         </template>
-        <v-date-picker v-model="date_dt_go" @input="dialog_date_dt_go = false" locale="th"></v-date-picker>
+        <v-date-picker v-model="editedItem.date_dt_go" @input="dialog_date_dt_go = false" locale="th"></v-date-picker>
       </v-menu>
           <!-- วันที่ออก -->
 
         </v-col>
 
-        <v-col
-          cols="12"
-          md="1"
-        >
+        <v-col cols="12" md="1" >
           <!-- เวลาออก -->
-           <v-dialog
-        ref="dialog"
-        v-model="modal_time_dt_go"
-        :return-value.sync="time_dt_go"
-        persistent
-        full-width
-        width="290px"
-      >
+          
+        <v-dialog
+          ref="dialog"
+          v-model="modal_time_dt_go"
+          :return-value.sync="editedItem.time_dt_go"          
+          persistent
+          full-width
+          width="290px"
+        >
         <template v-slot:activator="{ on }">
+          
           <v-text-field
-            v-model="time_dt_go"
+            v-model="editedItem.time_dt_go"
             label="เวลาออก"
             prepend-icon=""
             readonly
             v-on="on"
-            :disabled="is_full_row==1"
+            :disabled="editedItem.is_full_row==1"
           ></v-text-field>
         </template>
         <v-time-picker          
-          v-model="time_dt_go"
+          v-model="editedItem.time_dt_go"
           full-width
         >
           <div class="flex-grow-1"></div>
-          <v-btn text color="primary" @click="$refs.dialog.save(time_dt_go)">OK</v-btn>
+          <v-btn text color="primary" @click="$refs.dialog.save(editedItem.time_dt_go)">OK</v-btn>
         </v-time-picker>
       </v-dialog>
           <!-- เวลาออก -->
@@ -210,10 +144,10 @@
           md="3"
         >
           <v-text-field
-            v-model="go"         
+            v-model="editedItem.go"         
             label="ออกจาก"
             required
-            :disabled="is_full_row==1"
+            :disabled="editedItem.is_full_row==1"
           ></v-text-field> 
         </v-col>
 
@@ -235,15 +169,15 @@
       >
         <template v-slot:activator="{ on }">
           <v-text-field
-            v-model="date_dt_to"
+            v-model="editedItem.date_dt_to"
             label="วันที่ถึง"
             prepend-icon="event"
             readonly
             v-on="on"
-            :disabled="is_full_row==1"
+            :disabled="editedItem.is_full_row==1"
           ></v-text-field>
         </template>
-        <v-date-picker v-model="date_dt_to" @input="dialog_date_dt_to = false" locale="th"></v-date-picker>
+        <v-date-picker v-model="editedItem.date_dt_to" @input="dialog_date_dt_to = false" locale="th"></v-date-picker>
       </v-menu>
           <!-- วันที่ถึง -->
 
@@ -257,27 +191,27 @@
           <v-dialog
         ref="dialog2"
         v-model="modal_time_dt_to"
-        :return-value.sync="time_dt_to"
+        :return-value.sync="editedItem.time_dt_to"
         persistent
         full-width
         width="290px"
       >
         <template v-slot:activator="{ on }">
           <v-text-field
-            v-model="time_dt_to"
+            v-model="editedItem.time_dt_to"
             label="เวลาถึง"
             prepend-icon=""
             readonly
             v-on="on"
-            :disabled="is_full_row==1"
+            :disabled="editedItem.is_full_row==1"
           ></v-text-field>
         </template>
         <v-time-picker          
-          v-model="time_dt_to"
+          v-model="editedItem.time_dt_to"
           full-width
         >
           <div class="flex-grow-1"></div>
-          <v-btn text color="primary" @click="$refs.dialog2.save(time_dt_to)">OK</v-btn>
+          <v-btn text color="primary" @click="$refs.dialog2.save(editedItem.time_dt_to)">OK</v-btn>
         </v-time-picker>
       </v-dialog> 
           <!-- end เวลาถึง -->
@@ -288,27 +222,83 @@
           md="3"
         >
           <v-text-field
-            v-model="to"         
+            v-model="editedItem.to"         
             label="ไปถึง"
             required
-            :disabled="is_full_row==1"
+            :disabled="editedItem.is_full_row==1"
           ></v-text-field> 
         </v-col>
 <!-- ### end group ถึง ### -->
       </v-row>
 
+
+        </v-container>
+      </v-card-text>
+
+      <v-card-actions>
+        <div class="flex-grow-1"></div>
+        <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
+        <v-btn color="blue darken-1" text @click="save">Save</v-btn>
+      </v-card-actions> 
+
+    </v-card> 
+
+  </v-dialog>
+  </template> 
+  <!-- dialog Insert / Edit -->
+
+
+  <!-- table show all data -->
+  <template v-slot:item="{ item }" >
+    
+    <tr v-if="item.is_full_row==1">
       
-      <v-row>
-        <v-col>
-          <div class="text-center ">
-            <v-btn v-on:click="addNew()" class="primary">เพิ่มข้อมูล</v-btn>
-          </div>
-        </v-col>
-      </v-row>
+      <td >
+        <v-btn text icon color="red">
+          <v-icon>mdi-arrow-up</v-icon>
+        </v-btn>
+        <v-btn text icon color="red">
+          <v-icon>mdi-arrow-down</v-icon>
+        </v-btn>
+
+      </td>
+      <td colspan="7">{{ item.working_report }}</td>
+      <td >
+        <v-icon small class="mr-2" @click="editItem(item)">edit</v-icon>
+        <v-icon small @click="deleteItem(item)">delete</v-icon>
+      </td>
+    </tr> 
+    
+    <tr v-else>      
+      <td >
+        <v-btn text icon color="red">
+          <v-icon>mdi-arrow-up</v-icon>
+        </v-btn>
+        <v-btn text icon color="red">
+          <v-icon>mdi-arrow-down</v-icon>
+        </v-btn>
+      </td>
+      <td >{{ item.go }}</td>
+      <td >{{ item.date_dt_go }}</td>
+      <td >{{ item.time_dt_go }} </td>
+      <td >{{ item.to }}</td>
+      <td >{{ item.date_dt_to }}</td>
+      <td >{{ item.time_dt_to }}</td>
+      <td >{{ item.working_report }}</td>
+      <td >
+        <v-icon small class="mr-2" @click="editItem(item)">edit</v-icon>
+        <v-icon small>delete</v-icon>
+      </td>
+    </tr> 
+    
+  </template>
 
 
-    </v-container>
-  </v-form>
+</v-data-table>
+
+
+
+
 
     
 
@@ -335,32 +325,72 @@ export default {
       worksheets_id: '',      
       modal_time_dt_go: false,
       dialog_date_dt_go: false,
-      time_dt_go: null,
-      date_dt_go: null,
-      dt_go:'',
       modal_time_dt_to: false,
       dialog_date_dt_to: false,
-      time_dt_to: null,
-      date_dt_to: null,
-      dt_to:'',
-      ord:'',
-      go:'',
-      to:'',
-      working_report:'',
-      is_full_row:'',
+
+      // time_dt_go: null,
+      // date_dt_go: null,
+      // dt_go:'',      
+      // time_dt_to: null,
+      // date_dt_to: null,
+      // dt_to:'',
+      // ord:'',
+      // go:'',
+      // to:'',
+      // working_report:'',
+      // is_full_row:'',
+
+      dialog: false,
+      editedIndex: -1,
+      editedItem: {
+        id:'',
+        modal_time_dt_go: false,
+        dialog_date_dt_go: false,
+        time_dt_go: '',
+        date_dt_go: '',
+        dt_go:'',
+        modal_time_dt_to: false,
+        dialog_date_dt_to: false,
+        time_dt_to: '',
+        date_dt_to: '',
+        dt_to:'',
+        ord:'',
+        go:'',
+        to:'',
+        working_report:'',
+        is_full_row:'',
+      },
+      defaultItem: {
+        id:'',
+        modal_time_dt_go: false,
+        dialog_date_dt_go: false,
+        time_dt_go: '',
+        date_dt_go: '',
+        dt_go:'',
+        modal_time_dt_to: false,
+        dialog_date_dt_to: false,
+        time_dt_to: '',
+        date_dt_to: '',
+        dt_to:'',
+        ord:'',
+        go:'',
+        to:'',
+        working_report:'',
+        is_full_row:'',
+      },
 
       // data for details
       items_details: [],
       headers_details: [
         { text: ' ', value: '' },
         { text: 'ออกจาก', value: 'go' },
-        { text: 'วัน', value: 'dt_go_date' },
-        { text: 'เวลา', value: 'dt_go_time' },
+        { text: 'วัน', value: 'date_dt_go' },
+        { text: 'เวลา', value: 'time_dt_go' },
         { text: 'ถึง', value: 'to' },
-        { text: 'วัน', value: 'dt_to_date' },
-        { text: 'เวลา', value: 'dt_to_time' },
+        { text: 'วัน', value: 'date_dt_to' },
+        { text: 'เวลา', value: 'time_dt_to' },
         { text: 'รายงานการเดินทาง และปฏิบัติงาน', value: 'working_report' },
-        
+        { text: 'Actions', value: 'action', sortable: false },
       ],
 
     }
@@ -380,29 +410,29 @@ export default {
       )
     },
     clearData(){
-      this.go = '' 
-      this.date_dt_go = '' 
-      this.time_dt_go = '' 
-      this.to = '' 
-      this.date_dt_to = '' 
-      this.time_dt_to = '' 
-      this.working_report = '' 
-      this.is_full_row = '' 
+      this.editedItem.go = '' 
+      this.editedItem.date_dt_go = '' 
+      this.editedItem.time_dt_go = '' 
+      this.editedItem.to = '' 
+      this.editedItem.date_dt_to = '' 
+      this.editedItem.time_dt_to = '' 
+      this.editedItem.working_report = '' 
+      this.editedItem.is_full_row = '' 
     },
     addNew(){
-      // console.log('addNewTask has fire')
-       console.log('dt_go : '+(this.date_dt_go+' '+this.time_dt_go))
-      // return
+       //console.log('addNewTask has fire')        
+       //console.log('dt_go : '+(this.date_dt_go+' '+this.time_dt_go)) return
+       //return
 
-      if( this.is_full_row  != '1' ){
+      if( this.editedItem.is_full_row  != '1' ){
         if(
-          this.go == '' ||
-          this.date_dt_go == '' ||
-          this.time_dt_go == '' ||
-          this.to == '' ||
-          this.date_dt_to == '' ||
-          this.time_dt_to == '' ||
-          this.working_report == '' 
+          this.editedItem.go == '' ||
+          // this.date_dt_go == '' ||
+          // this.time_dt_go == '' ||
+          this.editedItem.to == '' ||
+          // this.date_dt_to == '' ||
+          // this.time_dt_to == '' ||
+          this.editedItem.working_report == '' 
         ){
           this.is_valid_input = ''
           alert('โปรดกรอกข้อมูลให้ครบ')
@@ -414,21 +444,20 @@ export default {
       }
 
       // console.log(this.is_valid_input)
-      // console.log('The id is: ' + this.$route.params.id); return 
+      // console.log('this.go: ' + this.editedItem.go); 
+      // console.log('this.date_dt_go+ +this.time_dt_go: ' + (this.editedItem.date_dt_go+' '+this.editedItem.time_dt_go)); return 
 
       axios.post("/api/workdetails", 
         {
           is_valid_input: this.is_valid_input,         
-          go:this.go, 
-          dt_go:this.date_dt_go+' '+this.time_dt_go,          
-          to:this.to,
-          dt_to:this.date_dt_to+' '+this.time_dt_to, 
-          working_report:this.working_report,
-          is_full_row:this.is_full_row,
-          worksheets_id: this.$route.params.id,
-          
-        }
-        
+          go:this.editedItem.go, 
+          dt_go:this.editedItem.date_dt_go+' '+this.editedItem.time_dt_go,          
+          to:this.editedItem.to,
+          dt_to:this.editedItem.date_dt_to+' '+this.editedItem.time_dt_to, 
+          working_report:this.editedItem.working_report,
+          is_full_row:this.editedItem.is_full_row,
+          worksheets_id: this.$route.params.id,          
+        }        
       )
       .then((res)=>{
         this.clearData()
@@ -439,12 +468,12 @@ export default {
         console.log("Error : " +err)
       })
     },
-    editData(id,firstname, lastname, position, address, allowance, expenses, bank_account, emp_no, belong_to, taxi,  etc){
-      this.id = id
-      this.firstname = firstname
+    // editData(id,firstname, lastname, position, address, allowance, expenses, bank_account, emp_no, belong_to, taxi,  etc){
+    //   this.id = id
+    //   this.firstname = firstname
       
-      this.isEdit = true
-    },
+    //   this.isEdit = true
+    // },
     updateData(){
       //console.log('updateData has fire')
       if(this.firstname == '' || this.lastname == ''){
@@ -452,12 +481,19 @@ export default {
       }else{
         this.is_valid_input = 'true'
       }
-
-      axios.put(`/api/workdetails/${this.id}`,{
+      var dataSend = {
           is_valid_input: this.is_valid_input,
-          firstname: this.firstname,
-          
-        })
+          //id:this.editedItem.id, 
+          go:this.editedItem.go, 
+          dt_go:this.editedItem.date_dt_go+' '+this.editedItem.time_dt_go,          
+          to:this.editedItem.to,
+          dt_to:this.editedItem.date_dt_to+' '+this.editedItem.time_dt_to, 
+          working_report:this.editedItem.working_report,
+          is_full_row:this.editedItem.is_full_row,
+          worksheets_id: this.$route.params.id,           
+        }
+      //console.log(dataSend)  
+      axios.put(`/api/workdetails/${this.editedItem.id}`, dataSend)
       .then((res)=>{
         this.isEdit = false 
         this.clearData()        
@@ -468,29 +504,80 @@ export default {
         console.log("Error : "+ err)
       })
     },
-    deleteData(id){
-      if(confirm('Confirm delete.'))
-      {
-        axios.delete(`/api/workdetails/${id}`)
-        .then((res)=> {
-          this.clearData()
-          this.getData()
-          //console.log(res)
-        })
-        .catch((err)=>{
-          console.log("Error : "+ err)
-        })
-      }
+    deleteData(id){      
+      axios.delete(`/api/workdetails/${id}`)
+      .then((res)=> {
+        this.clearData()
+        this.getData()
+        //console.log(res)
+      })
+      .catch((err)=>{
+        console.log("Error : "+ err)
+      })      
     }
+    ,
+    // handle close button
+    close () {
+      this.dialog = false 
+      setTimeout(() => {
+        this.editedItem = Object.assign({}, this.defaultItem)
+        this.editedIndex = -1
+      }, 300)
+    },
+
+    // handle Save button
+    save () {
+      if (this.editedIndex > -1) { 
+        // edit mode
+        Object.assign(this.items_details[this.editedIndex], this.editedItem)
+        this.updateData()
+      } else { 
+        // insert mode
+        this.items_details.push(this.editedItem)
+        //console.log(this.editedItem); return
+        //console.log(this.items_details[this.items_details.length-1]); return
+        this.addNew()
+      }
+      this.clearData()
+      this.close()
+    },
+    editItem (item) {      
+      this.editedIndex = this.items_details.indexOf(item)
+      item.date_dt_go = this.reversDateYMD(item.date_dt_go)
+      item.date_dt_to = this.reversDateYMD(item.date_dt_to)
+      this.editedItem = Object.assign({}, item)   
+      //console.log(this.editedItem)   
+      this.dialog = true
+    },
+    deleteItem (item) {
+      const index = this.items_details.indexOf(item)
+      if(confirm('ยืนยันการลบรายการที่ ' + item.id)){
+        this.items_details.splice(index, 1)
+        this.deleteData(item.id)
+      }
+    },
+    reversDateYMD (d) {      
+      if(/^\d{4}\-\d{1,2}\-\d{1,2}$/.test(d)){
+        return d
+      }else{
+        var newdate = d.split("-").reverse().join("-");
+        return newdate
+      }      
+    },
     
-
-
-
   } // end ,methods :
   ,
-  watch : {
+  computed: {
+    formTitle () {
+      return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+    },
+  },
 
-  }
+  watch: {
+    dialog (val) {
+      val || this.close()
+    },
+  },
 
 }
 </script>
