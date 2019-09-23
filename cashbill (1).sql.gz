@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Generation Time: Sep 20, 2019 at 05:15 PM
+-- Generation Time: Sep 23, 2019 at 09:18 AM
 -- Server version: 5.0.51
 -- PHP Version: 5.2.6
 
@@ -116,7 +116,7 @@ CREATE TABLE `tb_work_details` (
   `working_report` text NOT NULL,
   `is_full_row` tinyint(1) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=27 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=29 ;
 
 -- 
 -- Dumping data for table `tb_work_details`
@@ -128,4 +128,3 @@ INSERT INTO `tb_work_details` VALUES (11, 2, 0, 'บ้าน', '2019-09-17 23:3
 INSERT INTO `tb_work_details` VALUES (23, 1, 0, 'home', '2019-09-02 06:30:00', 'office', '2019-09-02 08:30:00', 'test 2', 0);
 INSERT INTO `tb_work_details` VALUES (24, 1, 0, '', '0000-00-00 00:00:00', '', '0000-00-00 00:00:00', 'trainning at pwa hq', 1);
 INSERT INTO `tb_work_details` VALUES (25, 1, 0, 'office', '2019-09-01 16:30:00', 'home', '2019-09-01 17:30:00', 'กลับๆๆๆ', 0);
-INSERT INTO `tb_work_details` VALUES (26, 1, 0, '', '0000-00-00 00:00:00', '', '0000-00-00 00:00:00', 'for del', 1);

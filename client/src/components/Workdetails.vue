@@ -287,7 +287,7 @@
       <td >{{ item.working_report }}</td>
       <td >
         <v-icon small class="mr-2" @click="editItem(item)">edit</v-icon>
-        <v-icon small>delete</v-icon>
+        <v-icon small @click="deleteItem(item)">delete</v-icon>
       </td>
     </tr> 
     
